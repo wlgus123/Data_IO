@@ -10,7 +10,7 @@
 
 #define MAXWIDTHSIZE 64
 #define MAXHEIGHTSIZE 24
-#define STRMAX 1000
+#define STRMAX 256
 
 // 전역변수
 char* g_MapInfo[MAXWIDTHSIZE];
@@ -29,18 +29,6 @@ typedef struct MapInfoData
 
 MapInfoData gameMap[3]; // 구조체 배열
 
-int getLineSize(FILE* p_file)
-{
-	char tempStr[STRMAX];
-	int lineCnt = 0;
-	while (fgets(tempStr, STRMAX, p_file))
-	{
-		++lineCnt;
-	}
-
-	return lineCnt;
-}
-
 void main()
 {
 	// 저장도 파일 명을 물어보도록 해서 저장하기
@@ -50,7 +38,69 @@ void main()
 	// 과제_C언어_이름_학번.zip
 	// 12시 30분 ~
 
-	printf("%d\n", MyStrcspn("Hello\nWorld\n", "\n"));
+	// MyStrcspn 불러오기
+	// 맵 데이터 변수 초기화
+	int mapW = 0;
+	int mapH = 0;
+	int boxCnt = 0;
+	char** map = NULL;
+
+	// 파일 읽어오기
+	FILE* fr = fopen("MapData.txt", "r");
+	if (!fr)
+	{
+		printf("파일을 읽어들이지 못했습니다.\n");
+		return;
+	}
+
+	char tempStr[STRMAX];
+	fscanf(fr, "%s %d %d ", tempStr, &mapW, &mapH); // 맵 크기
+	fscanf(fr, "%s %d ", tempStr, &boxCnt); // 박스 갯수
+	fgets(tempStr, mapW, fr); // 맵 정보(글자만)
+
+	// 동적할당 처리
+	map = (char**)malloc(sizeof(char*) * mapH);
+
+	for (size_t i = 0; i < mapH; i++)
+	{
+		char tempStr2[STRMAX];
+		fgets(tempStr2, mapW, fr);
+
+		map[i] = (char*)malloc(strlen(tempStr2) + sizeof(char*) + 1); // + '\0'
+		strcpy(map[i], tempStr2);
+	}
+
+	int pos = -1;
+	for (size_t i = 0; i < mapH; i++)
+	{
+		pos = MyStrcspn(map[i], "\n"); // \n이 있는 위치 찾기(MyStrscpn 사용)
+
+		// \n이 없을 경우 건너뛰기
+		if (pos == -1)
+		{
+			continue;
+		}
+
+		map[i][pos] = '\0';
+	}
+
+	for (size_t i = 0; i < mapH; i++)
+	{
+		// 한 줄에 아무것도 없을 때 (\0일 때) 건너뛰기
+		if (map[i][0] == '\0')
+		{
+			continue;
+		}
+		printf("%s\n", map[i]);
+	}
+
+	// 메모리 해제
+	for (size_t i = 0; i < mapH; i++)
+	{
+		free(map[i]);
+	}
+	free(map);
+	fclose(fr);
 
 	// 동적할당 처리
 	// 파일 읽어오기
@@ -136,7 +186,7 @@ void main()
 	//	printf("파일을 읽어오지 못했습니다.\n");
 	//	return;
 	//}
-	
+
 	/*char mapinfo1[MAXWIDTHSIZE] = "";
 	char mapinfo2[MAXWIDTHSIZE] = "";*/
 	// 변수에 값 입력

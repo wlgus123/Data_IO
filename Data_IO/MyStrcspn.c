@@ -8,7 +8,9 @@ int MyStrcspn(char* p_tempStr, char* p_src)
 
 	// tempStr의 크기가 0 이하일 경우 ERROR(-1) 반환
 	if (p_tempStr <= 0 || p_src <= 0)
+	{
 		return ERROR;
+	}
 
 	for (size_t tempIdx = 0; tempIdx < tempStrSize; tempIdx++)
 	{
