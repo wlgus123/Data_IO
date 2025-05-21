@@ -10,19 +10,11 @@
 
 #define MAXWIDTHSIZE 64
 #define MAXHEIGHTSIZE 24
+#define STRMAX 1000
 
 // 전역변수
-char g_MapInfo[MAXHEIGHTSIZE][MAXWIDTHSIZE] = {
-	"===================",
-	"=   P        X       @          =",
-	"=                               =",
-	"=                               =",
-	"=                               =",
-	"=                               =",
-	"=                               =",
-	"===================",
-
-}; // 3차원 배열로 여러 스테이지 지정 가능
+char* g_MapInfo[MAXWIDTHSIZE];
+//char g_MapInfo[5][MAXHEIGHTSIZE][MAXWIDTHSIZE]; // 3차원 배열로 여러 스테이지 지정 가능
 
 // or 구조체 형식으로
 typedef struct MapInfoData
@@ -37,62 +29,93 @@ typedef struct MapInfoData
 
 MapInfoData gameMap[3]; // 구조체 배열
 
+int getLineSize(FILE* p_file)
+{
+	char tempStr[STRMAX];
+	int lineCnt = 0;
+	while (fgets(tempStr, STRMAX, p_file))
+	{
+		++lineCnt;
+	}
+
+	return lineCnt;
+}
+
 void main()
 {
 	// 저장도 파일 명을 물어보도록 해서 저장하기
 	// 함수, 형식, 로드 처리
 	// strcspn(tempstr, "\n") -> mystrcspn() 같은 역할 만들기
+	// 동적할당 처리까지
 	// 과제_C언어_이름_학번.zip
 	// 12시 30분 ~
 
-	MapInfoData mapInfo;
-	// 구조체 값 초기화
-	mapInfo.MapSizeW = 0;
-	mapInfo.MapSizeH = 0;
-	mapInfo.BoxCnt = 0;
+	printf("%d\n", MyStrcspn("Hello\nWorld\n", "\n"));
 
-	for (size_t y = 0; y < MAXHEIGHTSIZE; y++)
-	{
-		for(size_t x = 0; x < MAXWIDTHSIZE; x++)
-		{
-			mapInfo.MapInfo[y][x] = g_MapInfo[y][x];
+	// 동적할당 처리
+	// 파일 읽어오기
+	//MapInfoData map;
+	//map.MapSizeW = 0;
+	//map.MapSizeH = 0;
+	//map.BoxCnt = 0;
+	//FILE* fr = fopen("MapData.txt", "r");
+	//if (!fr)
+	//{
+	//	printf("파일을 불러오지 못했습니다.\n");
+	//	return;
+	//}
+	//int lineSize = getLineSize(fr); // 줄 수 불러오기
 
-			if (g_MapInfo[y][x] == 'X')
-			{
-				mapInfo.BoxCnt++;
-			}
-		}
+	//fclose(fr);
 
-		// 맵 넓이 사이즈 구하기
-		int sizeW = strlen(mapInfo.MapInfo[y]);
-		// 맵 넓이가 다른 맵도 있기 때문에 더 넓은 사이즈가 있으면 사이즈 설정
-		if (mapInfo.MapSizeW < sizeW)
-		{
-			mapInfo.MapSizeW = sizeW;
-		}
+	//MapInfoData mapInfo;
+	//// 구조체 값 초기화
+	//mapInfo.MapSizeW = 0;
+	//mapInfo.MapSizeH = 0;
+	//mapInfo.BoxCnt = 0;
 
-		// 맵 높이 구하기
-		++mapInfo.MapSizeH;
-	}
+	//for (size_t y = 0; y < MAXHEIGHTSIZE; y++)
+	//{
+	//	for(size_t x = 0; x < MAXWIDTHSIZE; x++)
+	//	{
+	//		mapInfo.MapInfo[y][x] = g_MapInfo[y][x];
 
-	// 저장하기
-	char fileName[256] = "SaveData.txt";
-	FILE* fw = fopen(fileName, "w");
+	//		if (g_MapInfo[y][x] == 'X')
+	//		{
+	//			mapInfo.BoxCnt++;
+	//		}
+	//	}
 
-	// 맵 정보 쓰기 (fprintf 사용)
-	// 맵 사이즈 지정
-	fprintf(fw, "MAPSIZE: %d %d\n", mapInfo.MapSizeW, mapInfo.MapSizeH);
-	// 맵 박스 갯수
-	fprintf(fw, "BOXCOUT: %d\n", mapInfo.BoxCnt);
-	// 맵 정보
-	fprintf(fw, "MAPINFO:\n");
+	//	// 맵 넓이 사이즈 구하기
+	//	int sizeW = strlen(mapInfo.MapInfo[y]);
+	//	// 맵 넓이가 다른 맵도 있기 때문에 더 넓은 사이즈가 있으면 사이즈 설정
+	//	if (mapInfo.MapSizeW < sizeW)
+	//	{
+	//		mapInfo.MapSizeW = sizeW;
+	//	}
 
-	for (size_t i = 0; i < mapInfo.MapSizeH; i++)
-	{
-		fprintf(fw, "%s\n", mapInfo.MapInfo[i]);
-	}
+	//	// 맵 높이 구하기
+	//	++mapInfo.MapSizeH;
+	//}
 
-	fclose(fw);
+	//// 저장하기
+	//char fileName[256] = "SaveData.txt";
+	//FILE* fw = fopen(fileName, "w");
+
+	//// 맵 정보 쓰기 (fprintf 사용)
+	//// 맵 사이즈 지정
+	//fprintf(fw, "MAPSIZE: %d %d\n", mapInfo.MapSizeW, mapInfo.MapSizeH);
+	//// 맵 박스 갯수
+	//fprintf(fw, "BOXCOUT: %d\n", mapInfo.BoxCnt);
+	//// 맵 정보
+	//fprintf(fw, "MAPINFO:\n");
+
+	//for (size_t i = 0; i < mapInfo.MapSizeH; i++)
+	//{
+	//	fprintf(fw, "%s\n", mapInfo.MapInfo[i]);
+	//}
+
+	//fclose(fw);
 
 	//char fileName[256] = "MapInfo1.txt";
 
