@@ -27,5 +27,13 @@
     <ClCompile Include="MapLoader.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MyStrcspn.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyStrcspn.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

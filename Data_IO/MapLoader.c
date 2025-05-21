@@ -6,6 +6,8 @@
 #include <conio.h>
 #include <stdbool.h>
 
+#include "MyStrcspn.h"
+
 #define MAXWIDTHSIZE 64
 #define MAXHEIGHTSIZE 24
 
@@ -37,6 +39,12 @@ MapInfoData gameMap[3]; // 구조체 배열
 
 void main()
 {
+	// 저장도 파일 명을 물어보도록 해서 저장하기
+	// 함수, 형식, 로드 처리
+	// strcspn(tempstr, "\n") -> mystrcspn() 같은 역할 만들기
+	// 과제_C언어_이름_학번.zip
+	// 12시 30분 ~
+
 	MapInfoData mapInfo;
 	// 구조체 값 초기화
 	mapInfo.MapSizeW = 0;
