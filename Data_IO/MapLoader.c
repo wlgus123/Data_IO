@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 #include "MyStrcspn.h"
+#include "MyReplaceStr.h"
 
 #define MAXWIDTHSIZE 64
 #define MAXHEIGHTSIZE 24
@@ -31,6 +32,13 @@ MapInfoData gameMap[3]; // 구조체 배열
 
 void main()
 {
+	// MyReplaceStr 불러오기
+	char replaceStr[1000] = "abcdef";
+
+	MyReplaceStr(replaceStr, "ab", "ttt");
+
+	printf("%s\n", replaceStr);
+
 	// 저장도 파일 명을 물어보도록 해서 저장하기
 	// 함수, 형식, 로드 처리
 	// strcspn(tempstr, "\n") -> mystrcspn() 같은 역할 만들기
@@ -73,7 +81,7 @@ void main()
 	int pos = -1;
 	for (size_t i = 0; i < mapH; i++)
 	{
-		pos = MyStrcspn(map[i], "\n"); // \n이 있는 위치 찾기(MyStrscpn 사용)
+		pos = MyStrcspn(map[i], "\n", 0); // \n이 있는 위치 찾기(MyStrscpn 사용)
 
 		// \n이 없을 경우 건너뛰기
 		if (pos == -1)

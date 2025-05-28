@@ -9,4 +9,5 @@
 
 #define ERROR -1
 
-int MyStrcspn(const char* p_tempStr, const char* p_src, int p_offsetPos);
+int MyReplaceStr(OUT char p_str[], const char* p_findStr, const char* p_changeStr);
+int MyReplaceStr2(OUT char p_str[], const char* p_findStr, const char* p_changeStr);
